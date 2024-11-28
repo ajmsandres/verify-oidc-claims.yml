@@ -1,0 +1,19 @@
+name: Verificar Claims OIDC
+
+on:
+  workflow_dispatch:  # Permite ejecutar manualmente
+
+jobs:
+  verify-claims:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Imprimir Claims del OIDC
+        env:
+          OIDC_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Obteniendo token OIDC..."
+          curl --request POST \
+            --url https://token.actions.githubusercontent.com/.well-known/openid-configuration \
+            --header "Authorization: Bearer $OIDC_TOKEN" \
+            --data-urlencode "client_id=YOUR_CLIENT_ID" \
+            --data-urlencode "audience=YOUR_AUDIENCE"
